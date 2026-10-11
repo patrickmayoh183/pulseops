@@ -1,0 +1,6 @@
+target/
+.m2/
+data/
+*.log
+.env
+src/main/resources/static/
