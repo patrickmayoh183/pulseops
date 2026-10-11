@@ -1,0 +1,32 @@
+# PulseOps managed systemd service
+[Unit]
+Description=PulseOps service monitoring platform
+Wants=network-online.target docker.service
+After=network-online.target docker.service
+StartLimitIntervalSec=120
+StartLimitBurst=3
+
+[Service]
+Type=simple
+User=pulseops
+Group=pulseops
+WorkingDirectory=/var/lib/pulseops
+EnvironmentFile=/etc/pulseops/pulseops.env
+ExecStart=/usr/bin/java -Xms64m -Xmx192m -XX:+UseSerialGC -XX:MaxMetaspaceSize=128m -XX:ReservedCodeCacheSize=48m -Xss512k -XX:+ExitOnOutOfMemoryError -jar /opt/pulseops/current/app.jar
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=30
+SuccessExitStatus=143
+MemoryAccounting=yes
+MemoryMax=512M
+TasksMax=128
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/pulseops
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target
