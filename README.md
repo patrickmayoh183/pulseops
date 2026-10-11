@@ -4,7 +4,9 @@
 
 PulseOps 是使用 Java 与 Vue 开发的服务巡检平台：定期检查经过授权的 HTTPS 目标，把真实检查结果展示在公开状态页，并提供监控配置、故障备注和操作审计后台。项目面向个人开发者与小型团队，使用一台 ECS 和 MySQL RDS 部署。
 
-> 当前阶段：实现与本地验证已推进，正在部署。计划访问入口为 `pulse.ldjava.com`，尚未完成线上验收。仓库中的设计目标、验证计划和已验证结果分别记录，不把计划写成运行事实。
+> 已部署至 [https://pulse.ldjava.com](https://pulse.ldjava.com)。2026-10-11 已通过 HTTPS、真实目标探测、管理员会话、MySQL RDS 写入与应用进程重启后的数据保留验证。各项实测结果和未验证边界见 [验收记录](docs/03-acceptance.md)。
+
+[源码仓库](https://github.com/patrickmayoh183/pulseops) · [已通过的 GitHub Actions](https://github.com/patrickmayoh183/pulseops/actions/runs/38142283803) · [当前运行产物 v1.0.1](https://github.com/patrickmayoh183/pulseops/releases/tag/v1.0.1)
 
 ## 产品范围
 
@@ -98,7 +100,9 @@ npm --prefix frontend run build
 
 前端 `build` 同时执行 TypeScript 检查和 Vite 构建。部署包应先构建前端，再执行 Maven 打包并核验 JAR 内的静态文件。部署说明见 [部署工具与 Caddy 接入](deploy/README.md)，不能将本地开发服务器直接当作生产服务。
 
-上线验收至少包含：从公网访问真实域名、管理员登录与修改配置、RDS 数据持久化、真实检查结果写入、两次失败与两次成功的状态变化、鉴权与 SSRF 拒绝场景、进程重启恢复。详细用例见 [验收方案](docs/03-acceptance.md)。
+已验证的生产链路包括：公网 HTTPS、管理员监控管理、真实探测与审计写入、RDS 持久化、两次失败打开故障及两次成功自动恢复，以及应用进程重启后的历史保留和调度恢复。受控演练使用单独标注的监控，只调整预期状态码，完成后暂停；未停止被监控服务。桌面和 390×844 窄屏管理页面已检查，未测试实体手机。部署前的 TLS 失败样本也保留在历史中；统计来自真实观测，不填补或伪造成功数据。单节点重启存在短暂访问中断。其余用例与实际执行状态见 [验收记录](docs/03-acceptance.md)。
+
+已在 ECS 执行同一 JAR 的发布更新与应用回滚演练，最终恢复 `v1.0.1`，健康检查、监控身份与旧站访问保持正常。这验证发布工具的切换机制，不代表跨功能版本兼容性或数据库回滚已验证。
 
 ## 项目文档
 
