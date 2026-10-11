@@ -46,6 +46,8 @@ bash deploy/package.sh 20261010-01 backend/target/pulseops-1.0.0.jar
 
 先在服务器上创建独立 MySQL 数据库和最小范围账户，并通过 RDS 内网连接确认访问。生产环境必须显式使用 MySQL，安装脚本不会接受默认 H2。不要修改已有业务数据库。
 
+当前 RDS 需要在 JDBC URL 中保留 `&sessionVariables=explicit_defaults_for_timestamp=1`，完整格式见 `pulseops.env.example`。该参数只为应用连接显式启用时间戳默认值规则，不修改 RDS 实例的全局配置。2026-10-11 首次生产迁移在未配置该参数时出现 `Invalid default value for next_check_at`；补充参数并核对、修复失败的 Flyway 历史后，业务迁移和应用健康检查通过。不要通过关闭严格模式或修改旧业务库来规避问题；应用更新和重启时应保留此连接参数。若首次迁移已经失败，先检查实际表结构与 Flyway 历史并备份，再决定修复方式，不要反复运行首次安装脚本或盲目执行 `repair`。
+
 在包外准备 root 独占的环境文件，例如 `/root/pulseops.env`，参考 `pulseops.env.example`。必填项使用 `KEY=value` 格式，不加 shell 引号、不含空白或反斜杠，使用 LF 换行；脚本只解析值，不会执行或 `source` 该文件。密码留空的示例不能启动。管理员密码至少 12 字符；`PULSE_SECURE_COOKIE=true`；监听端口固定 18080。数据库 URL 中的 `?`、`&` 和密码中的 `$` 无需 shell 转义，因为文件不会被 shell 执行。
 
 ```bash
