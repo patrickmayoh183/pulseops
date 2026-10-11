@@ -1,0 +1,14 @@
+# Append only after reviewing/backup of the complete existing Caddyfile.
+# This variant requires an application container named pulseops attached to
+# ai-chat-m1_default, listening on 0.0.0.0:18080 INSIDE that container.
+# For host systemd replace pulseops with the verified bridge gateway address.
+# Vue must be bundled in the JAR and SPA routing must already work.
+pulse.ldjava.com {
+    encode zstd gzip
+    request_body {
+        max_size 32KB
+    }
+    reverse_proxy pulseops:18080 {
+        header_up X-Real-IP {remote_host}
+    }
+}
