@@ -1,0 +1,36 @@
+<script setup lang="ts">
+withDefaults(defineProps<{ name: string; size?: number }>(), { size: 20 })
+const paths: Record<string, string> = {
+  pulse: 'M3 12h4l3-8 4 16 3-8h4',
+  grid: 'M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z',
+  activity: 'M3 17V7 M8 17v-4 M13 17V3 M18 17V9 M2 21h20',
+  bell: 'M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9 M10 21h4',
+  book: 'M4 3h12a3 3 0 0 1 3 3v15H6a3 3 0 0 1-3-3V4a1 1 0 0 1 1-1 M3 17h16 M7 7h7 M7 11h5',
+  shield: 'M12 3 3 7v5c0 5 9 9 9 9s9-4 9-9V7z M8 12l3 3 5-6',
+  arrow: 'M5 12h14 M13 6l6 6-6 6',
+  chevron: 'm9 5 7 7-7 7',
+  back: 'M19 12H5 M11 6l-6 6 6 6',
+  check: 'm5 12 4 4L19 6',
+  close: 'm6 6 12 12 M18 6 6 18',
+  refresh: 'M20 7v5h-5 M4 17v-5h5 M6.1 7a7 7 0 0 1 11.5-1L20 9 M4 15l2.4 3A7 7 0 0 0 18 17',
+  search: 'M21 21l-5-5 M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0',
+  clock: 'M12 8v5l3 2 M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0',
+  globe: 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0 M2 12h20 M12 2a19 19 0 0 1 0 20 19 19 0 0 1 0-20',
+  plus: 'M12 5v14 M5 12h14',
+  edit: 'm16 3 5 5-12 12-6 1 1-6z M13 6l5 5',
+  play: 'm7 4 14 8-14 8z',
+  pause: 'M8 4v16 M16 4v16',
+  logout: 'M10 3H4v18h6 M9 12h13 M17 7l5 5-5 5',
+  lock: 'M6 10h12v11H6z M8 10V6a4 4 0 0 1 8 0v4 M12 14v3',
+  server: 'M3 3h18v7H3z M3 14h18v7H3z M7 6.5h.01 M7 17.5h.01',
+  alert: 'm12 3 10 18H2z M12 9v5 M12 17h.01',
+  info: 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0 M12 11v6 M12 7h.01',
+  code: 'm8 7-5 5 5 5 M16 7l5 5-5 5 M14 3l-4 18',
+  external: 'M14 3h7v7 M21 3 10 14 M10 3H3v18h18v-7',
+  menu: 'M4 6h16 M4 12h16 M4 18h16',
+  list: 'M8 5h13 M8 12h13 M8 19h13 M3 5h.01 M3 12h.01 M3 19h.01',
+  bolt: 'm13 2-9 12h7l-1 8 10-13h-7z',
+  eye: 'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12 M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0',
+}
+</script>
+<template><svg :width="size" :height="size" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path :d="paths[name] || paths.pulse" /></svg></template>
