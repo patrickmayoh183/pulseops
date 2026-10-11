@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: pulseops
+  datasource:
+    url: ${DB_URL:jdbc:h2:file:./data/pulseops;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_ON_EXIT=FALSE}
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD:}
+    hikari:
+      maximum-pool-size: ${DB_POOL_SIZE:4}
+      minimum-idle: 1
+      connection-timeout: 10000
+  jackson:
+    time-zone: UTC
+  flyway:
+    enabled: true
+  sql:
+    init:
+      mode: never
+server:
+  port: ${SERVER_PORT:${PORT:8080}}
+  address: ${SERVER_ADDRESS:127.0.0.1}
+  shutdown: graceful
+  max-http-request-header-size: 16KB
+  tomcat:
+    max-http-form-post-size: 32KB
+    threads:
+      max: 16
+      min-spare: 4
+  servlet:
+    session:
+      timeout: 30m
+      cookie:
+        name: PULSESESSION
+        http-only: true
+        secure: ${PULSE_SECURE_COOKIE:true}
+        same-site: strict
+  error:
+    include-message: never
+    include-stacktrace: never
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+pulse:
+  admin-username: ${PULSE_ADMIN_USERNAME:admin}
+  admin-password: ${PULSE_ADMIN_PASSWORD:}
+  allowed-hosts: ${PULSE_ALLOWED_HOSTS:}
+  seed-targets: ${PULSE_SEED_TARGETS:}
+  icp-number: ${PULSE_ICP_NUMBER:}
+  retention-days: ${PULSE_RETENTION_DAYS:30}
+  monitor-limit: ${PULSE_MONITOR_LIMIT:30}
+  scheduler-enabled: ${PULSE_SCHEDULER_ENABLED:true}
+  trusted-proxies: ${PULSE_TRUSTED_PROXIES:127.0.0.1,::1,0:0:0:0:0:0:0:1}
